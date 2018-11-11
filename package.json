@@ -1,0 +1,50 @@
+{
+  "name": "reality-check",
+  "description": "A light Tape-like wrapper around JS Benchmark",
+  "main": "lib/index.js",
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": "David Nunez <arizonatribe@gmail.com>",
+  "engines": {
+    "node": ">=7.6.0"
+  },
+  "bin": {
+    "rcheck": "./bin/index.js",
+    "reality-check": "./bin/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/arizonatribe/reality-check.git"
+  },
+  "keywords": [
+    "reality check",
+    "benchmark",
+    "benchmarks",
+    "jsbenchmark",
+    "jsperf",
+    "tape",
+    "testing",
+    "benchmarking",
+    "performance",
+    "javascript"
+  ],
+  "scripts": {
+    "start": "node lib/index.js",
+    "lint": "eslint bin lib"
+  },
+  "dependencies": {
+    "benchmark": "2.1.4",
+    "chalk": "2.4.1",
+    "file-matcher": "1.3.0",
+    "fs-readdir-recursive": "1.1.0",
+    "minimist": "1.2.0",
+    "resolve": "1.8.1",
+    "vanillas": "0.1.11"
+  },
+  "devDependencies": {
+    "eslint": "5.5.0",
+    "eslint-config-airbnb-base": "13.1.0",
+    "eslint-plugin-import": "2.14.0",
+    "nodemon": "1.11.0"
+  }
+}
