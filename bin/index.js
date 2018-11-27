@@ -1,41 +1,57 @@
-const path = require('path')
-const chalk = require('chalk')
-const parseCli = require('minimist')
-const resolveSync = require('resolve').sync
-const { findBenchmarkTests, errorLog, log } = require('../lib/helpers')
+#! /usr/bin/env node
 
-const parsed = parseCli(process.argv.slice(2), {
-  alias: { r: 'require' },
-  string: 'requires',
-  boolean: 'update-docs',
-  default: { r: ['@babel/register'] }
+const glob = require('glob')
+const parseCli = require('minimist')
+const resolveCwd = require('resolve-cwd')
+const buildOptions = require('minimist-options')
+const { findBenchmarkTests, errorLog, logger } = require('../lib/helpers')
+
+const options = buildOptions({
+  tap: {
+    default: false,
+    type: 'boolean'
+  },
+  pretty: {
+    default: false,
+    type: 'boolean'
+  },
+  require: {
+    alias: 'r',
+    default: '',
+    type: 'string'
+  }
 })
 
-const requires = Array.from(new Set([...parsed.require, ...parsed.r]))
-if (requires.length) {
-  // eslint-disable-next-line import/no-dynamic-require
-  requires.filter(Boolean).forEach(mod => { require(resolveSync(mod)) })
-}
+const {
+  r,
+  tap: useTap,
+  _: functionNames,
+  require: requires,
+  pretty: prettyPrint
+} = parseCli(process.argv.slice(2), options)
 
-const functionNames = parsed._
+/* Require in any modules that the user specified (ie, @babel/register) */
+Array
+  .from(new Set([...requires.split(','), ...r.split(',')]))
+  .filter(Boolean)
+  .forEach(mod => { require(resolveCwd(mod)) })
 
 // eslint-disable-next-line no-void
 void (async function benchmark() {
   try {
+    logger.init({useTap, prettyPrint, functionNames})
     let benchmarkTests = []
     if (!functionNames.length) {
-      log(chalk`{white Running all tests}{red.bold :}`)
-      log(chalk`{cyan You can always specify which test(s) to run using this syntax}:\n`)
-      log(chalk`{red $} {yellow npm run benchmark }{white -- }{cyan <file1> <file2> <file3>}{white ...}`)
-      log(chalk`{cyan (You can run one or more or all of the tests in the }{red benchmark/test/} {cyan directory)}\n`)
       benchmarkTests = await findBenchmarkTests(process.cwd())
-    } else if (functionNames.length !== 1) {
-      log(chalk`{white Running benchmark tests for: "${functionNames.join(', ')}"}{red.bold  . . . }\n`)
-      benchmarkTests = functionNames.map(fnName => path.resolve(fnName))
+    } else {
+      benchmarkTests = glob.sync(functionNames, {
+        dot: false,
+        cwd: process.cwd(),
+        ignore: ['**/node_modules']
+      })
     }
-
-    // eslint-disable-next-line import/no-dynamic-require
     benchmarkTests.forEach(filePath => { require(filePath) })
+    logger.close()
     process.exit(0)
   } catch (err) {
     errorLog(err)

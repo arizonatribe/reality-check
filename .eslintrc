@@ -1,5 +1,4 @@
 {
-  "parser": "babel-eslint",
   "env": {
     "node": true
   },
@@ -14,6 +13,7 @@
     "function-paren-newline": "off",
     "global-require": "off",
     "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+    "import/no-dynamic-require": "off",
     "import/no-named-as-default": "off",
     "indent": [ "error", 2 ],
     "linebreak-style": [ "error", "unix" ],
