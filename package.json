@@ -1,9 +1,10 @@
 {
   "name": "reality-check",
-  "description": "A light Tape-like wrapper around JS Benchmark",
+  "description": "A unit-test like wrapper around benchmark.js, for testing CPU performance of functions in JavaScript or TypeScript",
   "main": "lib/index.js",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "license": "MIT",
+  "types": "index.d.ts",
   "author": "David Nunez <arizonatribe@gmail.com>",
   "engines": {
     "node": ">=7.6.0"
@@ -13,6 +14,7 @@
     "reality-check": "./bin/index.js",
     "benchmark-check": "./bin/index.js"
   },
+  "homepage": "https://github.com/arizonatribe/reality-check",
   "repository": {
     "type": "git",
     "url": "https://github.com/arizonatribe/reality-check.git"
@@ -23,33 +25,26 @@
     "benchmarks",
     "jsbenchmark",
     "jsperf",
-    "tape",
     "testing",
     "benchmarking",
     "performance",
+    "typescript",
     "javascript"
   ],
   "scripts": {
-    "start": "node lib/index.js",
+    "start": "node bin/index.js",
+    "format": "eslint --fix bin lib",
     "lint": "eslint bin lib"
   },
   "dependencies": {
+    "@vanillas/chalk-console-logger": "^1.0.0",
+    "@vanillas/cli-toolkit": "^1.7.0",
     "benchmark": "2.1.4",
-    "chalk": "2.4.1",
-    "events": "3.0.0",
-    "file-matcher": "1.3.0",
-    "glob": "7.1.3",
-    "minimist": "1.2.3",
-    "minimist-options": "3.0.2",
-    "resolve-cwd": "2.0.0",
-    "supertap": "1.0.0",
-    "tap-parser": "7.0.0",
-    "vanillas": "0.1.13"
+    "vanillas": "1.6.5"
   },
   "devDependencies": {
-    "eslint": "^5.6.0",
-    "eslint-config-airbnb-base": "13.1.0",
-    "eslint-plugin-import": "2.14.0",
-    "nodemon": "1.18.7"
+    "@vanillas/eslint-config": "^1.1.0",
+    "eslint": "^8.12.0",
+    "typescript": "~4.5.2"
   }
 }
