@@ -4,6 +4,7 @@
   "main": "lib/index.js",
   "version": "1.0.0",
   "license": "MIT",
+  "types": "index.d.ts",
   "author": "David Nunez <arizonatribe@gmail.com>",
   "engines": {
     "node": ">=7.6.0"
@@ -13,7 +14,7 @@
     "reality-check": "./bin/index.js",
     "benchmark-check": "./bin/index.js"
   },
-  "homepage": "https://arizonatribe.github.io/reality-check",
+  "homepage": "https://github.com/arizonatribe/reality-check",
   "repository": {
     "type": "git",
     "url": "https://github.com/arizonatribe/reality-check.git"
@@ -38,7 +39,8 @@
   "dependencies": {
     "@vanillas/chalk-console-logger": "^1.0.0",
     "@vanillas/cli-toolkit": "^1.7.0",
-    "benchmark": "2.1.4"
+    "benchmark": "2.1.4",
+    "vanillas": "1.6.5"
   },
   "devDependencies": {
     "@vanillas/eslint-config": "^1.1.0",

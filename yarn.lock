@@ -1389,7 +1389,7 @@ v8-compile-cache@^2.0.3:
   resolved "https://registry.yarnpkg.com/v8-compile-cache/-/v8-compile-cache-2.3.0.tgz#2de19618c66dc247dcfb6f99338035d8245a2cee"
   integrity sha512-l8lCEmLcLYZh4nbunNZvQCJc5pv7+RCwa8q/LdUx8u7lsWvPDKmpodJAJNwkAhJC//dFY48KuIEmjtd4RViDrA==
 
-vanillas@^1.5.0:
+vanillas@1.6.5, vanillas@^1.5.0:
   version "1.6.5"
   resolved "https://registry.yarnpkg.com/vanillas/-/vanillas-1.6.5.tgz#82019dfea0afb4fd40235d70ace75d8f1f94497e"
   integrity sha512-YVHyho+eTEGsMxYDwbFFBO5X9wqkCNRU0RyX2wkiDAW1GpShRj2YE0i/K5ms/m6qVotcbo76H0Rv2GMMkXUo/A==
