@@ -1,17 +1,15 @@
 #! /usr/bin/env node
 /* eslint-disable global-require, import/no-dynamic-require */
 
+const path = require("path")
 const logger = require("@vanillas/chalk-console-logger")
-const {
-  parseArgs,
-  resolveGlobIfExists,
-  resolvePathIfExists
-} = require("@vanillas/cli-toolkit")
+const { parseArgs, resolvePathIfExists } = require("@vanillas/cli-toolkit")
 
 const {
   toStringArray,
   toAbsolutePath,
-  findBenchmarkTests
+  findBenchmarkTests,
+  resolveGlobbedFiles
 } = require("../lib/helpers")
 
 
@@ -27,8 +25,8 @@ async function runBenchmarkTests() {
 
   if (options.h || options.help || options.Help) {
     /* eslint-disable max-len */
-    logger.info(`
-{bold.green Run CPU performance benchmarks on JavaScript/TypeScript functions}
+    logger.info(chalk => chalk`
+{bold.cyan Run CPU performance 🕐 benchmarks on JavaScript/TypeScript functions}
 
 {bold.green Options:}
   {bold.yellow --require}        {white One or more commonjs modules to import }{bold.white prior }{white to running the test}
@@ -36,8 +34,9 @@ async function runBenchmarkTests() {
   {bold.yellow --cwd}            {white Optional base directory from which to search for benchmark tests (defaults to }{cyan process.cwd()}{white )}
 
 {bold.green Examples:}
-  $ rcheck --require ts-node/register
-  $ rcheck --cwd test/benchmark-tests/
+  $ {cyan rcheck }{red sorts.test.js **/*.benchmarks.js}
+  $ {cyan rcheck }{yellow --require }{red ts-node/register}
+  $ {cyan rcheck }{yellow --cwd }{red test/benchmark-tests/}
 `)
     /* eslint-enable max-len */
     process.exit(0)
@@ -72,23 +71,29 @@ async function runBenchmarkTests() {
     }
 
     let benchmarkTests = []
+    const filterPatterns = toStringArray(options._)
 
     /* Any user-specified glob? */
-    if (options._) {
-      const globs = toStringArray(options._)
-      const resolvedGlobs = globs.map(glob => resolveGlobIfExists(glob, cwd))
+    if (filterPatterns.length) {
+      const resolvedGlobs = resolveGlobbedFiles(filterPatterns, cwd)
 
-      if (!resolvedGlobs.length) {
-        throw new Error(`No benchmark test files matched the pattern: '${globs.join(" ")}'`)
-      }
+      logger.debug({ globs: filterPatterns, resolvedGlobs })
 
-      benchmarkTests = resolvedGlobs
+      benchmarkTests = resolvedGlobs.length
+        ? resolvedGlobs
+        : findBenchmarkTests(cwd, filterPatterns)
     } else {
-      /* Otherwise look for every file (from the cwd) with and import/require from 'reality-check' in it */
-      benchmarkTests = findBenchmarkTests(cwd)
+      /* Otherwise look for every file (from the cwd) which imports from this lib */
+      benchmarkTests = findBenchmarkTests(cwd, ["\.(jsx?|tsx?|flow|re)$"])
     }
 
     if (!benchmarkTests.length) {
+      if (filterPatterns.length) {
+        throw new Error(`No benchmark test files matched the pattern: '${
+          filterPatterns.join(" ")
+        }'`)
+      }
+
       throw new Error(`No benchmark tests were found${
         options.cwd ? ` at '${options.cwd}'` : ""
       }!`)
@@ -96,11 +101,15 @@ async function runBenchmarkTests() {
 
     logger.debug({ benchmarkTests })
 
+    logger.info(chalk => chalk`{cyan Found }{red ${
+        benchmarkTests.length
+    } }{cyan benchmark tests }🕐{yellow ${
+        benchmarkTests.map(filePath => `\n  - ${filePath.split(path.sep).pop()}`)
+    }}`)
+
     for (let i = 0, len = benchmarkTests.length; i < len; i++) {
       require(benchmarkTests[i])
     }
-
-    process.exit(0)
   } catch (err) {
     logger.fatal(err)
     process.exit(1)
