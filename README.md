@@ -1,5 +1,12 @@
 # Reality Check
 
+<img
+  src="https://raw.githubusercontent.com/arizonatribe/reality-check/master/media/logo.png"
+  width=250
+  alt="Reality Check"
+  align="right"
+/>
+
 A unit-test like wrapper around benchmark.js, for testing CPU performance of functions in JavaScript or TypeScript
 
 # Installation
