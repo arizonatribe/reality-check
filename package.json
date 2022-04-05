@@ -24,14 +24,15 @@
     "benchmarks",
     "jsbenchmark",
     "jsperf",
-    "tape",
     "testing",
     "benchmarking",
     "performance",
+    "typescript",
     "javascript"
   ],
   "scripts": {
     "start": "node bin/index.js",
+    "format": "eslint --fix bin lib",
     "lint": "eslint bin lib"
   },
   "dependencies": {

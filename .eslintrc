@@ -1,3 +1,6 @@
 {
-  "extends": "@vanillas/eslint-config"
+  "extends": "@vanillas/eslint-config",
+  "rules": {
+    "no-continue": "off"
+  }
 }
