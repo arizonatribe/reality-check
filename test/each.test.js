@@ -30,3 +30,4 @@ test("Each", bench => {
         return arrCopy
     }, "for loop")
 })
+

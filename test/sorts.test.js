@@ -1,11 +1,7 @@
+/* eslint-disable jsdoc/require-jsdoc */
 const { test } = require("../lib")
 // const { test } = require("reality-check")
 
-/**
- * @param arr
- * @param chunkLength
- * @param idx
- */
 function heapify(arr, chunkLength, idx) {
   let indexOfLargest = idx
   const leftIndex = idx * 2 + 1
@@ -27,9 +23,6 @@ function heapify(arr, chunkLength, idx) {
   return arr
 }
 
-/**
- * @param arr
- */
 function heapsort(arr) {
   const len = arr.length
   let a = Math.floor(len / 2 - 1)
@@ -51,11 +44,6 @@ function heapsort(arr) {
   return arr
 }
 
-/**
- * @param arr1
- * @param arr2
- * @param arr3
- */
 function concatlists(arr1, arr2, arr3) {
   const merged = Array(arr1.length + arr2.length + arr3.length)
 
@@ -114,9 +102,6 @@ function quicksort(arr) {
   )
 }
 
-/**
- * @param arr
- */
 function bubblesort(arr) {
   for (let i = 0, len = arr.length; i < len; i++) {
     for (let j = 0; j < len; j++) {
@@ -129,9 +114,6 @@ function bubblesort(arr) {
   return arr
 }
 
-/**
- * @param arr
- */
 function insertionsort(arr) {
   for (let i = 0, len = arr.length; i < len; i++) {
     let idx = i
@@ -144,10 +126,6 @@ function insertionsort(arr) {
   return arr
 }
 
-/**
- * @param leftList
- * @param rightList
- */
 function mergelists(leftList, rightList) {
   const leftLen = leftList.length
   const rightLen = rightList.length
@@ -180,9 +158,6 @@ function mergelists(leftList, rightList) {
   return merged
 }
 
-/**
- * @param arr
- */
 function mergesort(arr) {
   const len = arr.length
 
@@ -198,9 +173,6 @@ function mergesort(arr) {
   )
 }
 
-/**
- * @param arr
- */
 function radixsort(arr) {
   const len = arr.length
   const maxNumOfDigits = `${Math.max(...arr)}`.length
@@ -231,6 +203,27 @@ function radixsort(arr) {
   return arr
 }
 
+function selectionsort(arr) {
+  const len = arr.length
+  let startingIdx = 0
+
+  while (startingIdx < len) {
+    let idxOfMinVal = startingIdx
+    for (let i = startingIdx; i < len; i++) {
+      if (arr[i] < arr[idxOfMinVal]) {
+        idxOfMinVal = i
+      }
+    }
+
+    if (idxOfMinVal !== startingIdx) {
+      [arr[idxOfMinVal], arr[startingIdx]] = [arr[startingIdx], arr[idxOfMinVal]]
+    }
+    startingIdx++
+  }
+
+  return arr
+}
+
 test("Sorts", bench => {
   const unsortedArray = Array(10000)
     .fill(0)
@@ -246,6 +239,11 @@ test("Sorts", bench => {
     const arrCopy = [...unsortedArray]
     return quicksort(arrCopy)
   }, "quick sort")
+
+  bench(() => {
+    const arrCopy = [...unsortedArray]
+    return selectionsort(arrCopy)
+  }, "selection sort")
 
   bench(() => {
     const arrCopy = [...unsortedArray]

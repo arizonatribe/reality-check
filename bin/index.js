@@ -102,9 +102,9 @@ async function runBenchmarkTests() {
     logger.debug({ benchmarkTests })
 
     logger.info(chalk => chalk`{cyan Found }{red ${
-        benchmarkTests.length
+      benchmarkTests.length
     } }{cyan benchmark tests }🕐{yellow ${
-        benchmarkTests.map(filePath => `\n  - ${filePath.split(path.sep).pop()}`)
+      benchmarkTests.map(filePath => `\n  - ${filePath.split(path.sep).pop()}`)
     }}`)
 
     for (let i = 0, len = benchmarkTests.length; i < len; i++) {
