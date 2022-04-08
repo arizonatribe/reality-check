@@ -90,6 +90,12 @@ Running benchmark test suite: "Squaring each number in a list" . . .
    - for..of .................... 577.21% slower!
 ```
 
+### Examples
+
+There are a handful of examples in this project's own `test/` directory. Different kinds of sorts are benchmarked, as well as looping mechanisms, adding-to/removing-from arrays, etc.
+
+Also, the [vanillas](https://www.github.com/arizonatribe/vanillas) utils library makes heavy use of `reality-check` inside of its `test/benchmarks/` directory. That project compares to popular libraries like Lodash, Ramda, FxJs, etc., and so its benchmark tests are there to demonstrate how its own util functions perform in comparison to similar util functions in Lodash, Ramda, etc. So there are many more examples on how to use `reality-check` you can find there.
+
 ### Glob Filtering Tests
 
 You can specify any glob pattern you wish to use to filter tests:
